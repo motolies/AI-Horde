@@ -1,25 +1,5 @@
 # Changelog
 
-# 4.17.2
-
-Yet another fix for the duplicate images in SDXL. Hopefully I got it now
-
-# 4.17.1
-
-Another attempt to prevent SDXL duplicates via race conditions
-
-# 4.17.0
-
-Enabled SDXL_beta model
-
-# 4.16.3
-
-Working being paused due to suspicion will now inform moderators via a discord webhook
-
-# 4.16.2
-
-Consider emojis when checking for CSAM potential
-
 # 4.16.1
 
 Fix for duplicate seeds and extra gens

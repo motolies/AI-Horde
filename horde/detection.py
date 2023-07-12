@@ -10,7 +10,6 @@ from horde.database.functions import compile_regex_filter, retrieve_regex_replac
 from horde.model_reference import model_reference
 from unidecode import unidecode
 from horde.argparser import args
-import emoji
 
 class PromptChecker:
     
@@ -114,7 +113,7 @@ class PromptChecker:
         prompt_suspicion = 0
         if "###" in prompt:
             prompt, negprompt = prompt.split("###", 1)
-        norm_prompt = self.normalize_prompt(prompt)
+        prompt = self.normalize_prompt(prompt)
         # logger.debug(prompt)
         matching_groups = []
         for filters in [self.filters1, self.filters2]:
@@ -124,19 +123,8 @@ class PromptChecker:
                     continue
                 # We only need 1 of the filters in the group to match to increase suspicion
                 # Suspicion does not increase further for more filters in the same group
-                existing_emojis = emoji.emoji_list(prompt)
-                if filter_id == "filter_10" and len(existing_emojis):
-                    found_sus = False
-                    emj_list = [emj["emoji"] for emj in existing_emojis]
-                    for emj in ["👧","👦","👶","👼","🐤","🐥","🚼","🍼","🚸"]:
-                        if emj in emj_list:
-                            matching_groups.append(emj)
-                            found_sus = True
-                    if found_sus:
-                        prompt_suspicion += 1
-                        break
                 if self.compiled[filter_id]:
-                    match_result = self.compiled[filter_id].search(norm_prompt)
+                    match_result = self.compiled[filter_id].search(prompt)
                     if match_result:
                         prompt_suspicion += 1
                         matching_groups.append(match_result.group())
@@ -259,3 +247,6 @@ class PromptChecker:
 
 
 prompt_checker = PromptChecker()
+# Test
+# import sys
+# sys.exit()
